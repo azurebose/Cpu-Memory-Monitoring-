@@ -7,6 +7,7 @@ Welcome to the System Monitoring Dashboard project! This dashboard provides real
 - [Getting Started](#getting-started)
 - [Running Locally](#running-locally)
 - [Dockerization](#dockerization)
+- [Deploy to kubernetes](#deploy-to-kubernetes)
 
 ## Requirements
 Make sure you have the following dependencies installed before running the application:
@@ -40,6 +41,27 @@ docker build -t system-monitoring-dashboard .
 ## Run  the Docker Container
 ```
 docker run -p 5000:5000 system-monitoring-dashboard
+```
 
+# Deploy to Kubernetes
+```
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+```
+## check status of your deployment
+```
+kubectl get deployments
+
+
+```
+## Check the status of pods
+```
+kubectl get pods
+
+```
+## Once the pod are running check the status of service 
+```
+kubectl get services
 
 ```
