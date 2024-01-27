@@ -1,4 +1,4 @@
-# System Monitoring Dashboard
+# System `CPU`, `Memory` Monitoring Dashboard
 
 Welcome to the System Monitoring Dashboard project! This dashboard provides real-time monitoring of CPU and memory usage through a web interface.
 
