@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitoring Dashboard</title>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3498db, #e74c3c, #2ecc71); /* Gradient background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white;
+        }
+        h1 {
+            color: white;
+        }
+        .welcome-message {
+            font-size: 36px;
+            font-weight: bold;
+            color: #e74c3c; /* Text color: Red */
+            background: #ecf0f1; /* Background color: Light Grey */
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            max-width: 600px; /* Adjust the max-width as needed */
+            margin-top: 20px;
+        }
+        .chart-wrapper {
+            border: 2px solid #fff; /* Border color */
+            border-radius: 10px; /* Border radius */
+            overflow: hidden; /* Ensure border-radius works properly */
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Box shadow */
+        }
+        canvas {
+            max-width: 250px; /* Adjust the max-width of the charts */
+            width: 100%;
+        }
+        .chart-label {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-message">
+        Welcome To Sen DevOps
+    </div>
+    <h1>System Monitoring Dashboard</h1>
+
+    <div class="chart-container">
+        <div class="chart-wrapper">
+            <canvas id="cpu-chart"></canvas>
+            <div class="chart-label">
+                <span style="color: #4CAF50; font-weight: bold;">Used</span> /
+                <span style="color: #e0e0e0; font-weight: bold;">Free</span>
+            </div>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="memory-chart"></canvas>
+            <div class="chart-label">
+                <span style="color: #2196F3; font-weight: bold;">Used</span> /
+                <span style="color: #e0e0e0; font-weight: bold;">Free</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Chart.js for CPU pie chart
+        const cpuCtx = document.getElementById('cpu-chart').getContext('2d');
+        const cpuChart = new Chart(cpuCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Used', 'Free'],
+                datasets: [{
+                    data: [0, 100],
+                    backgroundColor: ['#4CAF50', '#e0e0e0'],
+                }],
+            },
+            options: {
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                    },
+                },
+            },
+        });
+
+        // Initialize Chart.js for memory pie chart
+        const memoryCtx = document.getElementById('memory-chart').getContext('2d');
+        const memoryChart = new Chart(memoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Used', 'Free'],
+                datasets: [{
+                    data: [0, 100],
+                    backgroundColor: ['#2196F3', '#e0e0e0'],
+                }],
+            },
+            options: {
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                    },
+                },
+            },
+        });
+
+        function updateCharts() {
+            fetch('/system_data')
+                .then(response => response.json())
+                .then(data => {
+                    // Update CPU pie chart
+                    const cpuUsed = data.cpu_percentages.reduce((acc, curr) => acc + curr, 0) / data.cpu_percentages.length;
+                    cpuChart.data.datasets[0].data = [cpuUsed.toFixed(2), 100 - cpuUsed.toFixed(2)];
+
+                    // Update memory pie chart
+                    const memoryUsed = data.memory_percent;
+                    memoryChart.data.datasets[0].data = [memoryUsed, 100 - memoryUsed];
+
+                    // Update both charts
+                    cpuChart.update();
+                    memoryChart.update();
+                });
+        }
+
+        setInterval(updateCharts, 1000);
+    </script>
+</body>
+</html>
