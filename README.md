@@ -20,23 +20,19 @@ You can install the required Python packages by running:
 ```bash
 pip install -r requirements.txt
 
-
 ```
 ## Getting Started
 ```
 git clone https://github.com/your-username/system-monitoring-dashboard.git
 cd system-monitoring-dashboard
-
 ```
 ## Running Locally 
 ```
 python app.py
-
 ```
 # Dockerization
 ```
 docker build -t system-monitoring-dashboard .
-
 ```
 ## Run  the Docker Container
 ```
@@ -47,21 +43,16 @@ docker run -p 5000:5000 system-monitoring-dashboard
 ```
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
-
 ```
 ## check status of your deployment
 ```
 kubectl get deployments
-
-
 ```
 ## Check the status of pods
 ```
 kubectl get pods
-
 ```
 ## Once the pod are running check the status of service 
 ```
 kubectl get services
-
 ```
