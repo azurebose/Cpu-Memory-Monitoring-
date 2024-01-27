@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 
 ```
-## Clone the repo
+## Getting Started
 ```
 git clone https://github.com/your-username/system-monitoring-dashboard.git
 cd system-monitoring-dashboard
