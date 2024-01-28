@@ -1,4 +1,8 @@
-# System `CPU`, `Memory` Monitoring Dashboard
+# 🥏System `CPU`, `Memory` Monitoring Dashboard🎢
+
+## 🚩OutPut
+![image](https://github.com/Fir3eye/Cpu-Memory-Monitoring-/assets/93431222/811b4a76-908c-468b-bfbc-e1a1e6c99bcb)
+
 
 Welcome to the System Monitoring Dashboard project! This dashboard provides real-time monitoring of CPU and memory usage through a web interface.
 
