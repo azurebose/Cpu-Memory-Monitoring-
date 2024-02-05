@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: system-monitoring-deployment
+  name: nodejs-app
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: system-monitoring
+      app: nodejs-app
   template:
     metadata:
       labels:
-        app: system-monitoring
+        app: nodejs-app
     spec:
       containers:
-        - name: system-monitoring-container
-          image: your-docker-image:tag
-          ports:
-            - containerPort: 5000
+      - name: nodejs-container
+        image: your-nodejs-image:tag
+        ports:
+        - containerPort: 5000
