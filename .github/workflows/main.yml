@@ -1,0 +1,31 @@
+name: PR Preview Deployment (via ArgoCD)
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build and Push Docker Image
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          docker build -t chndra/cpumoniter:$IMAGE_TAG .
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker push chndra/cpumoniter:$IMAGE_TAG
+
+      - name: Update deployment manifest image
+        run: |
+          sed -i "s|image: chndra/cpumoniter:.*|image: chndra/cpumoniter:${{ github.sha }}|" k8s/deployment.yaml
+
+      - name: Commit and push updated manifest
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update image to chndra/cpumoniter:${{ github.sha }} for PR preview"
+          file_pattern: k8s/deployment.yaml
